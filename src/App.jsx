@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import NavbarWithStyling from "./components/navbar/navbarWithStyling";
-import Button from "./components/elements/button/Button";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import NavbarWithStyling from "./components/navbar/navbarWithStyling";
 import AboutView from "./pages/AboutView";
 import HomeView from "./pages/HomeView";
 import NotFoundView from "./pages/NotFoundView";
 import LoginPage from "./pages/Login"; 
 import RegisterPage from "./pages/Register"; 
 
+// Define routes
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,15 +35,13 @@ const router = createBrowserRouter([
 function App() {
   const [page, setPage] = useState(1); // Current page
   const [limit, setLimit] = useState(10); // Number of items per page
-  const [shopsType, setShopsType] = useState(""); // Example filter for shops type
-  const [priceRange, setPriceRange] = useState([0, 100000]); // Example price range
+  const [shopsType, setShopsType] = useState(""); // Filter for shops type
+  const [priceRange, setPriceRange] = useState([0, 100000]); // Price range
   const [shops, setShops] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(shops);
-
-  // Fetch data axios
+  // Fetch data using axios
   useEffect(() => {
     const fetchShops = async () => {
       setLoading(true);
@@ -60,7 +55,6 @@ function App() {
             maxPrice: priceRange[1],
           },
         });
-        console.log(response);
 
         const data = response.data;
         if (data.isSuccess) {
@@ -80,21 +74,24 @@ function App() {
 
   return (
     <>
+      {/* Navbar */}
       <header className="flex justify-between p-4 bg-white shadow-md">
         <h1 className="text-lg font-bold text-blue-800">Binar Car Rental</h1>
       </header>
-      
+
+      {/* Filter Section */}
       <div className="p-4">
         <label>
-          Car Type:
+          Shop Type:
           <input
             type="text"
             value={shopsType}
             onChange={(e) => setShopsType(e.target.value)}
-            placeholder="Enter car type"
+            placeholder="Enter shop type"
             className="ml-2 border rounded p-1"
           />
         </label>
+        
         <label className="ml-4">
           Price Range:
           <input
@@ -113,11 +110,26 @@ function App() {
             className="ml-2 border rounded p-1 w-16"
           />
         </label>
+
+        <label className="ml-4">
+          Limit:
+          <input
+            type="number"
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value))}
+            placeholder="Items per page"
+            className="ml-2 border rounded p-1 w-16"
+          />
+        </label>
       </div>
-  
+
+      {/* Main Content */}
       <main className="text-center">
+        {/* Loading and Error Handling */}
         {loading && <p>Loading...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
+        
+        {/* Shops List */}
         {!loading && !error && (
           <section className="max-w-6xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {shops.map((shop, index) => (
@@ -138,7 +150,7 @@ function App() {
             ))}
           </section>
         )}
-  
+
         {/* Pagination Controls */}
         <div className="flex justify-center mt-4 space-x-2">
           <button
@@ -157,6 +169,9 @@ function App() {
           </button>
         </div>
       </main>
+
+      {/* Router Provider */}
+      <RouterProvider router={router} />
     </>
   );
 }
