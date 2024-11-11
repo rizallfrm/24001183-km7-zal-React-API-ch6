@@ -9,28 +9,36 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AboutView from "./pages/AboutView";
 import HomeView from "./pages/HomeView";
 import NotFoundView from "./pages/NotFoundView";
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <HomeView />,
-//   },
-//   {
-//     path: "/about",
-//     element: <AboutView />,
-//   },
-//   {
-//     path: "/not-found",
-//     element: <NotFoundView />,
-//   },
-//   {
-//     path: "login",
-//     element: <LoginPage />,
-//   },
-//   {
-//     path: "register",
-//     element: <RegisterPage />,
-//   },
-// ]);
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomeView />,
+  },
+  {
+    path: "/about",
+    element: <AboutView />,
+  },
+  {
+    path: "/not-found",
+    element: <NotFoundView />,
+  },
+  {
+    path: "login",
+    element: <LoginPage />,
+  },
+  {
+    path: "register",
+    element: <RegisterPage />,
+  },
+]);
+
+
+const [page, setPage] = useState(1); // Current page
+const [limit, setLimit] = useState(10); // Number of items per page
+const [carType, setCarType] = useState(""); // Example filter for car type
+const [priceRange, setPriceRange] = useState([0, 100000]); // Example price range
+
 function App() {
   // store data sedara state react nya
   const [shops, setShops] = useState([]);
